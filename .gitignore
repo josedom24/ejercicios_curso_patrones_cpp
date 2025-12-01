@@ -1,41 +1,15 @@
-# Prerequisites
-*.d
+# Ignorar configuración local de VS Code
+.vscode/
 
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
+## Ignorar todo en patrones
+patrones/**/*
+# Pero no los directorios (para que Git pueda ver dentro)
+!patrones/**/
+# Ni los archivos fuente, encabezados o docs
+!patrones/**/*.cpp
+!patrones/**/*.h
+!patrones/**/*.hpp
+!patrones/**/*.txt
+!patrones/**/*.md
+!patrones/**/*.jpg
 
-# Precompiled Headers
-*.gch
-*.pch
-
-# Linker files
-*.ilk
-
-# Debugger Files
-*.pdb
-
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
-
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
-
-# Executables
-*.exe
-*.out
-*.app
-
-# debug information files
-*.dwo
