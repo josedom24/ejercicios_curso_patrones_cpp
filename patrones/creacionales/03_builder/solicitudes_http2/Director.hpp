@@ -12,10 +12,12 @@ public:
         : builder_(builder) {}
 
     // Construcción mínima: GET sin cuerpo
-    std::unique_ptr<SolicitudHTTP> construir_get_simple(const std::string& url) {
+    std::unique_ptr<SolicitudHTTP>
+    construir_get_simple(const std::string& url) {
         builder_.reiniciar();
         builder_.establecer_metodo("GET");
         builder_.establecer_url(url);
+        builder_.establecer_timeout(5000);   // NUEVO
         return builder_.obtener_solicitud();
     }
 

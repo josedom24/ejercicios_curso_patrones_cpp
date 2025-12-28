@@ -28,34 +28,33 @@ public:
     ConstructorSolicitudConcreto() { reiniciar(); }
 
     void reiniciar() override {
-        metodo_ = "GET";
-        url_.clear();
-        cabeceras_.clear();
-        cuerpo_.clear();
+        solicitud_ = std::make_unique<SolicitudHTTP>();
     }
 
-    void establecer_metodo(const std::string& m) override { metodo_ = m; }
-    void establecer_url(const std::string& u) override { url_ = u; }
-
-    void agregar_cabecera(const std::string& clave,
-                          const std::string& valor) override {
-        cabeceras_[clave] = valor;
+    void establecer_metodo(const std::string& m) override {
+        solicitud_->establecer_metodo(m);
     }
 
-    void establecer_cuerpo(const std::string& c) override { cuerpo_ = c; }
+    void establecer_url(const std::string& u) override {
+        solicitud_->establecer_url(u);
+    }
+
+    void agregar_cabecera(const std::string& k,
+                          const std::string& v) override {
+        solicitud_->agregar_cabecera(k, v);
+    }
+
+    void establecer_cuerpo(const std::string& c) override {
+        solicitud_->establecer_cuerpo(c);
+    }
 
     std::unique_ptr<SolicitudHTTP> obtener_solicitud() override {
-        // La construcción se delega a la fábrica estática
-        return SolicitudHTTP::crear(metodo_, url_, cabeceras_, cuerpo_);
+        return std::move(solicitud_);
     }
 
 private:
-    std::string metodo_;
-    std::string url_;
-    SolicitudHTTP::Cabeceras cabeceras_;
-    std::string cuerpo_;
+    std::unique_ptr<SolicitudHTTP> solicitud_;
 };
-
 
 // ======================================================
 //   Builder fluido (sin Director, típico en C++ moderno)
@@ -64,34 +63,30 @@ private:
 class ConstructorSolicitudFluido {
 public:
     ConstructorSolicitudFluido& metodo(const std::string& m) {
-        metodo_ = m;
+        solicitud_.establecer_metodo(m);
         return *this;
     }
 
     ConstructorSolicitudFluido& url(const std::string& u) {
-        url_ = u;
+        solicitud_.establecer_url(u);
         return *this;
     }
 
-    ConstructorSolicitudFluido& cabecera(const std::string& clave,
-                                         const std::string& valor) {
-        cabeceras_[clave] = valor;
+    ConstructorSolicitudFluido& cabecera(const std::string& k,
+                                         const std::string& v) {
+        solicitud_.agregar_cabecera(k, v);
         return *this;
     }
 
     ConstructorSolicitudFluido& cuerpo(const std::string& c) {
-        cuerpo_ = c;
+        solicitud_.establecer_cuerpo(c);
         return *this;
     }
 
-    // Crea el objeto inmutable desde el builder fluido
-    std::unique_ptr<SolicitudHTTP> construir() const {
-        return SolicitudHTTP::crear(metodo_, url_, cabeceras_, cuerpo_);
+    std::unique_ptr<SolicitudHTTP> construir() {
+        return std::make_unique<SolicitudHTTP>(solicitud_);
     }
 
 private:
-    std::string metodo_ = "GET";
-    std::string url_;
-    SolicitudHTTP::Cabeceras cabeceras_;
-    std::string cuerpo_;
+    SolicitudHTTP solicitud_;
 };

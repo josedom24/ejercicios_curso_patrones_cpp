@@ -16,11 +16,10 @@ int main() {
     ctor.establecer_metodo("POST");
     ctor.establecer_url("https://api.ejemplo.com/datos");
     ctor.agregar_cabecera("Content-Type", "application/json");
-    ctor.establecer_cuerpo(R"({"dato": 123})");
-    ctor.establecer_timeout(5000);                 // ← NUEVO
+    ctor.establecer_cuerpo("{\"dato\": 123}");
+    ctor.establecer_timeout(5000);               // ← NUEVO
     auto sol_timeout = ctor.obtener_solicitud();
     sol_timeout->mostrar();
-
 
     std::cout << "\n=== Builder SIN Director (fluido) ===\n";
 
@@ -30,8 +29,8 @@ int main() {
             .metodo("PUT")
             .url("https://api.ejemplo.com/usuario/42")
             .cabecera("Authorization", "Bearer token123")
-            .cuerpo(R"({"nombre": "Juan"})")
-            .timeout(3000)                         // ← NUEVO
+            .cuerpo("{\"nombre\": \"Juan\"}")
+            .timeout(3000)                       // ← NUEVO
             .construir();
 
     sol2->mostrar();
