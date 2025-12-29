@@ -1,0 +1,3 @@
+[Archivo] Temperatura: 22°C
+[Archivo] Temperatura: 31°C
+[Archivo] Temperatura: 35°C
