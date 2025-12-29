@@ -1,5 +1,4 @@
 #pragma once
-#include <iostream>
 #include <memory>
 #include <string>
 
@@ -10,15 +9,8 @@ class Manejador {
 public:
     virtual ~Manejador() = default;
 
-    void establecer_siguiente(std::unique_ptr<Manejador> siguiente) {
-        siguiente_ = std::move(siguiente);
-    }
-
-    void manejar(const std::string& solicitud) const {
-        if (!procesar(solicitud) && siguiente_) {
-            siguiente_->manejar(solicitud);
-        }
-    }
+    void establecer_siguiente(std::unique_ptr<Manejador> siguiente);
+    void manejar(const std::string& solicitud) const;
 
 protected:
     virtual bool procesar(const std::string& solicitud) const = 0;
@@ -30,36 +22,17 @@ private:
 // ----------------------------------------
 // Manejadores concretos
 // ----------------------------------------
-
 class ValidadorAutenticacion : public Manejador {
 protected:
-    bool procesar(const std::string& solicitud) const override {
-        if (solicitud == "token-invalido") {
-            std::cout << "Autenticación fallida.\n";
-            return true;
-        }
-        return false;
-    }
+    bool procesar(const std::string& solicitud) const override;
 };
 
 class ValidadorPermisos : public Manejador {
 protected:
-    bool procesar(const std::string& solicitud) const override {
-        if (solicitud == "sin-permisos") {
-            std::cout << "Permisos insuficientes.\n";
-            return true;
-        }
-        return false;
-    }
+    bool procesar(const std::string& solicitud) const override;
 };
 
 class ValidadorFormato : public Manejador {
 protected:
-    bool procesar(const std::string& solicitud) const override {
-        if (solicitud.empty()) {
-            std::cout << "Formato inválido: solicitud vacía.\n";
-            return true;
-        }
-        return false;
-    }
+    bool procesar(const std::string& solicitud) const override;
 };
