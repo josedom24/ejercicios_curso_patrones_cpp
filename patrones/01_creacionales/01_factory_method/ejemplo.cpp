@@ -14,7 +14,7 @@ public:
 class ProductoConcretoA : public Producto {
 public:
     void operar() const override {
-        std::cout << "Operación del ProductoConcretoA.\n";
+        std::cout << "Operación del ProductoConcretoA\n";
     }
 };
 
@@ -22,7 +22,7 @@ public:
 class ProductoConcretoB : public Producto {
 public:
     void operar() const override {
-        std::cout << "Operación del ProductoConcretoB.\n";
+        std::cout << "Operación del ProductoConcretoB\n";
     }
 };
 
@@ -35,12 +35,6 @@ public:
 
     // Factory Method
     virtual std::unique_ptr<Producto> crear_producto() const = 0;
-
-    // Operación que utiliza el producto
-    void ejecutar() const {
-        auto producto = crear_producto();
-        producto->operar();
-    }
 };
 
 // Creador concreto A
@@ -60,10 +54,11 @@ public:
 };
 
 // ----------------------------------------
-// Función cliente
+// Código cliente
 // ----------------------------------------
 void cliente(const Creador& creador) {
-    creador.ejecutar();
+    auto producto = creador.crear_producto();  // creación delegada
+    producto->operar();                        // uso del producto
 }
 
 int main() {

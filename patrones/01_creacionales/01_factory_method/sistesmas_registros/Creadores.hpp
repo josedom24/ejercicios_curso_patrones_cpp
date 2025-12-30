@@ -12,12 +12,6 @@ public:
 
     // Factory Method
     virtual std::unique_ptr<Logger> crear_logger() const = 0;
-
-    // Método que utiliza el logger sin conocer su tipo concreto
-    void registrar(const std::string& mensaje) const {
-        auto logger = crear_logger();
-        logger->log(mensaje);
-    }
 };
 
 // ----------------------------------------

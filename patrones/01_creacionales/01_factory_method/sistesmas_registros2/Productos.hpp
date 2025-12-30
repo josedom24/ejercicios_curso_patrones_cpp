@@ -1,7 +1,6 @@
 #pragma once
 #include <iostream>
 #include <fstream>
-#include <memory>
 #include <string>
 
 // ----------------------------------------
@@ -49,7 +48,6 @@ public:
     }
 };
 
-// NUEVO
 // Logger que simula escribir en una base de datos
 class LoggerBD : public Logger {
 public:

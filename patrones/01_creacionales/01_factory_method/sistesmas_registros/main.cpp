@@ -1,7 +1,8 @@
 #include "Creadores.hpp"
 
 void cliente(const CreadorLogger& fabrica) {
-    fabrica.registrar("Mensaje de prueba");
+    auto logger = fabrica.crear_logger();   // creación delegada
+    logger->log("Mensaje de prueba");        // uso explícito del producto
 }
 
 int main() {
