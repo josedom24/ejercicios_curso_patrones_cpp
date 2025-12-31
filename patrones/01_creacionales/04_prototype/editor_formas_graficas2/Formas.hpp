@@ -58,24 +58,33 @@ public:
 
 
 // ----------------------------------------
-// Prototipo concreto: Triángulo
+// Prototipo concreto: Rectángulo con estilo
 // ----------------------------------------
 
-class Triangulo : public Forma {
+class RectanguloConEstilo : public Forma {
 private:
-    int base_;
-    int altura_;
+    int ancho_;
+    int alto_;
+    std::unique_ptr<std::string> color_;  // atributo dinámico
 
 public:
-    Triangulo(int base, int altura)
-        : base_(base), altura_(altura) {}
+    RectanguloConEstilo(int ancho, int alto, std::string color)
+        : ancho_(ancho),
+          alto_(alto),
+          color_(std::make_unique<std::string>(std::move(color))) {}
 
+    // Clonación profunda: se duplica el recurso dinámico
     std::unique_ptr<Forma> clonar() const override {
-        return std::make_unique<Triangulo>(*this);
+        return std::make_unique<RectanguloConEstilo>(
+            ancho_,
+            alto_,
+            *color_
+        );
     }
 
     void dibujar() const override {
-        std::cout << "Triángulo (base=" << base_
-                  << ", altura=" << altura_ << ")\n";
+        std::cout << "Rectángulo [" << ancho_
+                  << "x" << alto_
+                  << "] color=" << *color_ << "\n";
     }
 };

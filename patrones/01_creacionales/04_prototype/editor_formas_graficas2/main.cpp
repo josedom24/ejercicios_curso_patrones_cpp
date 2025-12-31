@@ -9,11 +9,11 @@ void cliente(const Forma& prototipo) {
 int main() {
     Rectangulo rect(120, 60);
     Circulo circ(40);
-    Triangulo tri(50, 80); // NUEVO
+    RectanguloConEstilo rectEstilado(100, 50, "rojo"); // NUEVO
 
 
     cliente(rect);   // Clona y dibuja un rectángulo
     cliente(circ);   // Clona y dibuja un círculo
-    cliente(tri);    // Clona y dibuja un triángulo NUEVO
+    cliente(rectEstilado);   // Clona y dibuja un rectángulo con estilo NUEVO
     return 0;
 }
