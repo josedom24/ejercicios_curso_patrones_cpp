@@ -34,6 +34,7 @@ public:
     }
 
 private:
+    // El adaptador posee al objeto adaptado en este ejemplo
     std::unique_ptr<Adaptado> adaptado_;
 };
 
