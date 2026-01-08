@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+#include <utility>
 #include <string>
 #include "Procesador.hpp"
 #include "ApiBanco.hpp"
@@ -13,7 +14,7 @@ private:
     std::unique_ptr<ApiPagoBanco> api_;
 
 public:
-    AdaptadorPagoBanco(std::string iban, std::unique_ptr<ApiPagoBanco> api)
+    explicit AdaptadorPagoBanco(std::string iban, std::unique_ptr<ApiPagoBanco> api)
         : iban_destino_(std::move(iban)), api_(std::move(api)) {}
 
     void pagar(double cantidad) const override {
