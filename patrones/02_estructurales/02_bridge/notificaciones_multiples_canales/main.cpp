@@ -1,6 +1,6 @@
 #include "Notificaciones.hpp"
 
-void cliente(Notificacion& notif) {
+void cliente(const Notificacion& notif) {
     notif.enviar("Revisar el sistema de seguridad.");
 }
 
