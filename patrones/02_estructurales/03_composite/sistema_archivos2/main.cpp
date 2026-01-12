@@ -1,5 +1,9 @@
 #include "Elementos.hpp"
 
+void cliente(const Elemento& elemento) {
+    elemento.mostrar();
+}
+
 int main() {
     // Crear directorio raíz
     auto raiz = std::make_unique<Directorio>("home");
@@ -7,27 +11,20 @@ int main() {
     // Añadir archivos a la raíz
     raiz->agregar(std::make_unique<Archivo>("notas.txt"));
     raiz->agregar(std::make_unique<Archivo>("foto.png"));
+    
+    // NUEVO: Añadir enlace simbólico a la raíz
+    raiz->agregar(std::make_unique<Enlace>("link_importante", "/home/documentos/cv.pdf"));
 
     // Crear subdirectorio
     auto documentos = std::make_unique<Directorio>("documentos");
     documentos->agregar(std::make_unique<Archivo>("cv.pdf"));
     documentos->agregar(std::make_unique<Archivo>("proyecto.docx"));
 
-
-    //NUEVO
-    auto archivoImportante = std::make_unique<Archivo>("importante.txt");
-    auto* ptrArchivoImportante = archivoImportante.get();
-
-    raiz->agregar(std::move(archivoImportante));
-
-    // Crear enlace simbólico al archivo anterior
-    raiz->agregar(std::make_unique<Enlace>("link_importante", ptrArchivoImportante));
-
     // Insertar subdirectorio en la raíz
     raiz->agregar(std::move(documentos));
 
     // Mostrar estructura completa
-    raiz->mostrar();
+    cliente(*raiz);
 
     return 0;
 }

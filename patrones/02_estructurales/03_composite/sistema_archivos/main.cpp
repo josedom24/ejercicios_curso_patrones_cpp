@@ -1,5 +1,9 @@
 #include "Elementos.hpp"
 
+void cliente(const Elemento& elemento) {
+    elemento.mostrar();
+}
+
 int main() {
     // Crear directorio raíz
     auto raiz = std::make_unique<Directorio>("home");
@@ -17,7 +21,7 @@ int main() {
     raiz->agregar(std::move(documentos));
 
     // Mostrar estructura completa
-    raiz->mostrar();
+    cliente(*raiz);
 
     return 0;
 }

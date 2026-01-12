@@ -63,15 +63,16 @@ public:
 class Enlace : public Elemento {
 private:
     std::string nombre_;
-    const Elemento* objetivo_;  // no posee, solo referencia
+    std::string destino_;
 
 public:
-    Enlace(std::string nombre, const Elemento* objetivo)
-        : nombre_(std::move(nombre)), objetivo_(objetivo) {}
+    Enlace(std::string nombre, std::string destino)
+        : nombre_(std::move(nombre)), destino_(std::move(destino)) {}
 
     void mostrar(int indentacion = 0) const override {
         std::cout << std::string(indentacion, ' ')
                   << "- " << nombre_
-                  << " -> (enlace a otro elemento)\n";
+                  << " -> " << destino_
+                  << "\n";
     }
 };
