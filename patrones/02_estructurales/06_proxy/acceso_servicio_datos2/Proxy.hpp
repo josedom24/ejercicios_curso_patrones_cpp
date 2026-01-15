@@ -3,15 +3,16 @@
 #include <memory>
 #include <string>
 #include <unordered_map>
+#include <stdexcept>
 #include "Servicio.hpp"
 
 // ----------------------------------------
-// Proxy que controla acceso, inicializa el servicio
-// bajo demanda y mantiene una pequeña caché
+// Proxy con control de acceso, inicialización
+// diferida y caché
 // ----------------------------------------
 class ProxyServicioDatos : public ServicioDatos {
 private:
-    std::unique_ptr<ServicioDatosReal> servicio_real_;
+    std::unique_ptr<ServicioDatos> servicio_real_;
     std::unordered_map<std::string, std::string> cache_;
     std::string usuario_;
 
@@ -27,11 +28,13 @@ public:
         std::cout << "[Proxy] Solicitud para '" << clave << "'.\n";
 
         if (!comprobar_acceso()) {
-            return "[Proxy] Acceso denegado para el usuario '" + usuario_ + "'";
+            throw std::runtime_error(
+                "Acceso denegado para el usuario '" + usuario_ + "'"
+            );
         }
 
-        if (cache_.find(clave) != cache_.end()) {
-           return "[Proxy] (Caché) " + cache_[clave];
+        if (auto it = cache_.find(clave); it != cache_.end()) {
+            return "[Proxy] (Caché) " + it->second;
         }
 
         if (!servicio_real_) {
@@ -40,20 +43,17 @@ public:
         }
 
         auto resultado = servicio_real_->obtener_datos(clave);
-
         cache_[clave] = resultado;
 
         return resultado;
     }
 };
-
-
 // ----------------------------------------
 // Nuevo Proxy: añade registro detallado de solicitudes
 // ----------------------------------------
 class ProxyServicioDatosLogger : public ServicioDatos {
 private:
-    std::unique_ptr<ServicioDatosReal> servicio_real_;
+    std::unique_ptr<ServicioDatos> servicio_real_;
 
 public:
     std::string obtener_datos(const std::string& clave) override {
@@ -66,7 +66,7 @@ public:
 
         auto resultado = servicio_real_->obtener_datos(clave);
 
-        std::cout << "[Logger] Resultado entregado: '" 
+        std::cout << "[Logger] Resultado entregado: '"
                   << resultado << "'\n";
 
         return resultado;

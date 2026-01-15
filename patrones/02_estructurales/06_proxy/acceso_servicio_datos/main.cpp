@@ -2,11 +2,15 @@
 #include "Proxy.hpp"
 
 void cliente(ServicioDatos& servicio) {
-    std::cout << servicio.obtener_datos("perfil") << "\n";
-    std::cout << servicio.obtener_datos("estadisticas") << "\n";
+    try {
+        std::cout << servicio.obtener_datos("perfil") << "\n";
+        std::cout << servicio.obtener_datos("estadisticas") << "\n";
 
-    // Segunda llamada repetida: vendrá de la caché
-    std::cout << servicio.obtener_datos("perfil") << "\n";
+        // Segunda llamada repetida: vendrá de la caché
+        std::cout << servicio.obtener_datos("perfil") << "\n";
+    } catch (const std::exception& e) {
+        std::cout << "[Cliente] Error: " << e.what() << "\n";
+    }
 }
 
 int main() {

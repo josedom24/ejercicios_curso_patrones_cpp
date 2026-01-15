@@ -17,7 +17,7 @@ public:
 class ObjetoReal : public ISujeto {
 public:
     void realizar_operacion(const std::string& usuario) override {
-        std::cout << "ObjetoReal: ejecutando operación para '" 
+        std::cout << "ObjetoReal: ejecutando operación para '"
                   << usuario << "'.\n";
     }
 };
@@ -27,31 +27,38 @@ public:
 // ----------------------------------------
 class Proxy : public ISujeto {
 private:
-    std::unique_ptr<ObjetoReal> objeto_real_;
+    // Ahora el proxy depende de la abstracción, no del tipo concreto
+    std::unique_ptr<ISujeto> sujeto_real_;
 
     bool comprobar_acceso(const std::string& usuario) const {
-        std::cout << "Proxy: comprobando acceso para '" 
+        std::cout << "Proxy: comprobando acceso para '"
                   << usuario << "'...\n";
         return usuario == "admin";
     }
 
     void registrar_acceso(const std::string& usuario) const {
-        std::cout << "Proxy: registrando uso del servicio por '" 
+        std::cout << "Proxy: registrando uso del servicio por '"
                   << usuario << "'.\n";
+    }
+
+    // Factoría interna para crear el sujeto real (sigue siendo ObjetoReal aquí,
+    // pero el resto del proxy no depende de su tipo)
+    static std::unique_ptr<ISujeto> crear_sujeto_real() {
+        return std::make_unique<ObjetoReal>();
     }
 
 public:
     void realizar_operacion(const std::string& usuario) override {
-        if (!objeto_real_) {
+        if (!sujeto_real_) {
             std::cout << "Proxy: inicializando ObjetoReal bajo demanda...\n";
-            objeto_real_ = std::make_unique<ObjetoReal>();
+            sujeto_real_ = crear_sujeto_real();
         }
 
         if (comprobar_acceso(usuario)) {
             registrar_acceso(usuario);
-            objeto_real_->realizar_operacion(usuario);
+            sujeto_real_->realizar_operacion(usuario);
         } else {
-            std::cout << "Proxy: acceso denegado a '" 
+            std::cout << "Proxy: acceso denegado a '"
                       << usuario << "'.\n";
         }
     }
@@ -61,7 +68,7 @@ public:
 // Código cliente
 // ----------------------------------------
 void cliente(ISujeto& servicio, const std::string& usuario) {
-    std::cout << "Cliente: intentando usar el servicio como '" 
+    std::cout << "Cliente: intentando usar el servicio como '"
               << usuario << "'.\n";
     servicio.realizar_operacion(usuario);
     std::cout << "----------------------------------------\n";
