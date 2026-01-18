@@ -22,6 +22,7 @@ class InterfazUsuario {
 public:
     virtual ~InterfazUsuario() = default;
 
+    virtual std::string nombre() const = 0;
     virtual void recibir(const std::string& emisor,
                          const std::string& mensaje) = 0;
 };
@@ -42,7 +43,9 @@ public:
                   << " envía mensaje: " << mensaje << "\n";
 
         for (auto& u : usuarios_) {
-            u->recibir(emisor, mensaje);
+            if (u && u->nombre() != emisor) {
+                u->recibir(emisor, mensaje);
+            }
         }
     }
 

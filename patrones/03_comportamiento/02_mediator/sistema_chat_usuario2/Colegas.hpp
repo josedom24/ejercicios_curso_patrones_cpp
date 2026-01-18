@@ -3,6 +3,7 @@
 #include <iostream>
 #include <memory>
 #include <string>
+#include <utility>
 
 // ----------------------------------------
 // Clase base: Usuario (Colega)
@@ -21,9 +22,6 @@ public:
         }
     }
 
-protected:
-    virtual std::string nombre() const = 0;
-
 private:
     std::weak_ptr<InterfazMediador> mediador_;
 };
@@ -36,18 +34,15 @@ public:
     explicit UsuarioRegular(std::string id)
         : id_(std::move(id)) {}
 
+    std::string nombre() const override {
+        return id_;
+    }
+
     void recibir(const std::string& emisor,
                  const std::string& mensaje) override
     {
-        if (emisor != id_) {
-            std::cout << "[" << id_ << "] recibe: "
-                      << mensaje << " (de " << emisor << ")\n";
-        }
-    }
-
-protected:
-    std::string nombre() const override {
-        return id_;
+        std::cout << "[" << id_ << "] recibe: "
+                  << mensaje << " (de " << emisor << ")\n";
     }
 
 private:
@@ -62,18 +57,15 @@ public:
     explicit UsuarioAdministrador(std::string id)
         : id_(std::move(id)) {}
 
+    std::string nombre() const override {
+        return id_;
+    }
+
     void recibir(const std::string& emisor,
                  const std::string& mensaje) override
     {
-        if (emisor != id_) {
-            std::cout << "[ADMIN " << id_ << "] recibe: "
-                      << mensaje << " (de " << emisor << ")\n";
-        }
-    }
-
-protected:
-    std::string nombre() const override {
-        return id_;
+        std::cout << "[ADMIN " << id_ << "] recibe: "
+                  << mensaje << " (de " << emisor << ")\n";
     }
 
 private:
@@ -89,19 +81,16 @@ public:
     explicit UsuarioPremium(std::string id)
         : id_(std::move(id)) {}
 
+    std::string nombre() const override {
+        return id_;
+    }
+
     void recibir(const std::string& emisor,
                  const std::string& mensaje) override
     {
-        if (emisor != id_) {
-            std::cout << "[Premium " << id_
-                      << "] recibe mensaje PRIORITARIO: "
-                      << mensaje << " (de " << emisor << ")\n";
-        }
-    }
-
-protected:
-    std::string nombre() const override {
-        return id_;
+        std::cout << "[Premium " << id_
+                  << "] recibe mensaje PRIORITARIO: "
+                  << mensaje << " (de " << emisor << ")\n";
     }
 
 private:
