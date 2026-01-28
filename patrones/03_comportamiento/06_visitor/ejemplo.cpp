@@ -30,7 +30,7 @@ public:
 class ElementoA : public Elemento {
 public:
     void accept(Visitante& v) override {
-        v.visitar(*this); // double dispatch
+        v.visitar(*this); // doble despacho
     }
 
     void accion_especifica_A() const {
@@ -41,7 +41,7 @@ public:
 class ElementoB : public Elemento {
 public:
     void accept(Visitante& v) override {
-        v.visitar(*this); // double dispatch
+        v.visitar(*this); // doble despacho
     }
 
     void accion_especifica_B() const {
