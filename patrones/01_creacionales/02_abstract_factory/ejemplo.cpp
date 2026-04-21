@@ -2,58 +2,58 @@
 #include <memory>
 
 // ======================================================
-//    Interfaces de la familia de productos
+//    Interfaces abstractas de los productos
 // ======================================================
 
-// Producto 1: Button
-class Button {
+// Producto 1
+class ProductoA {
 public:
-    virtual ~Button() = default;
-    virtual void paint() const = 0;
+    virtual ~ProductoA() = default;
+    virtual void operacionA() const = 0;
 };
 
-// Producto 2: Checkbox
-class Checkbox {
+// Producto 2
+class ProductoB {
 public:
-    virtual ~Checkbox() = default;
-    virtual void toggle() const = 0;
+    virtual ~ProductoB() = default;
+    virtual void operacionB() const = 0;
 };
 
 
 // ======================================================
-//    Productos concretos de la familia Windows
+//    Productos concretos de la Familia A
 // ======================================================
 
-class WinButton : public Button {
+class ProductoA_FamiliaA : public ProductoA {
 public:
-    void paint() const override {
-        std::cout << "[Windows] Pintando botón.\n";
+    void operacionA() const override {
+        std::cout << "Ejecutando operación A en ProductoA_FamiliaA\n";
     }
 };
 
-class WinCheckbox : public Checkbox {
+class ProductoB_FamiliaA : public ProductoB {
 public:
-    void toggle() const override {
-        std::cout << "[Windows] Alternando checkbox.\n";
+    void operacionB() const override {
+        std::cout << "Ejecutando operación B en ProductoB_FamiliaA\n";
     }
 };
 
 
 // ======================================================
-//    Productos concretos de la familia Linux
+//    Productos concretos de la Familia B
 // ======================================================
 
-class LinuxButton : public Button {
+class ProductoA_FamiliaB : public ProductoA {
 public:
-    void paint() const override {
-        std::cout << "[Linux] Pintando botón.\n";
+    void operacionA() const override {
+        std::cout << "Ejecutando operación A en ProductoA_FamiliaB\n";
     }
 };
 
-class LinuxCheckbox : public Checkbox {
+class ProductoB_FamiliaB : public ProductoB {
 public:
-    void toggle() const override {
-        std::cout << "[Linux] Alternando checkbox.\n";
+    void operacionB() const override {
+        std::cout << "Ejecutando operación B en ProductoB_FamiliaB\n";
     }
 };
 
@@ -62,12 +62,12 @@ public:
 //    Fábrica abstracta
 // ======================================================
 
-class AbstractGUIFactory {
+class FabricaAbstracta {
 public:
-    virtual ~AbstractGUIFactory() = default;
+    virtual ~FabricaAbstracta() = default;
 
-    virtual std::unique_ptr<Button> create_button() const = 0;
-    virtual std::unique_ptr<Checkbox> create_checkbox() const = 0;
+    virtual std::unique_ptr<ProductoA> crearProductoA() const = 0;
+    virtual std::unique_ptr<ProductoB> crearProductoB() const = 0;
 };
 
 
@@ -75,25 +75,25 @@ public:
 //    Fábricas concretas
 // ======================================================
 
-class WindowsFactory : public AbstractGUIFactory {
+class FabricaFamiliaA : public FabricaAbstracta {
 public:
-    std::unique_ptr<Button> create_button() const override {
-        return std::make_unique<WinButton>();
+    std::unique_ptr<ProductoA> crearProductoA() const override {
+        return std::make_unique<ProductoA_FamiliaA>();
     }
 
-    std::unique_ptr<Checkbox> create_checkbox() const override {
-        return std::make_unique<WinCheckbox>();
+    std::unique_ptr<ProductoB> crearProductoB() const override {
+        return std::make_unique<ProductoB_FamiliaA>();
     }
 };
 
-class LinuxFactory : public AbstractGUIFactory {
+class FabricaFamiliaB : public FabricaAbstracta {
 public:
-    std::unique_ptr<Button> create_button() const override {
-        return std::make_unique<LinuxButton>();
+    std::unique_ptr<ProductoA> crearProductoA() const override {
+        return std::make_unique<ProductoA_FamiliaB>();
     }
 
-    std::unique_ptr<Checkbox> create_checkbox() const override {
-        return std::make_unique<LinuxCheckbox>();
+    std::unique_ptr<ProductoB> crearProductoB() const override {
+        return std::make_unique<ProductoB_FamiliaB>();
     }
 };
 
@@ -102,18 +102,18 @@ public:
 //    Código cliente
 // ======================================================
 
-void cliente(const AbstractGUIFactory& factory) {
-    auto button   = factory.create_button();
-    auto checkbox = factory.create_checkbox();
+void cliente(const FabricaAbstracta& fabrica) {
+    auto a = fabrica.crearProductoA();
+    auto b = fabrica.crearProductoB();
 
-    button->paint();
-    checkbox->toggle();
+    a->operacionA();
+    b->operacionB();
 }
 
 int main() {
-    WindowsFactory winFactory;
-    LinuxFactory   linuxFactory;
+    FabricaFamiliaA fabricaA;
+    FabricaFamiliaB fabricaB;
 
-    cliente(winFactory);
-    cliente(linuxFactory);
+    cliente(fabricaA);
+    cliente(fabricaB);
 }
