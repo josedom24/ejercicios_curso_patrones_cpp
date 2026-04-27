@@ -30,12 +30,6 @@ public:
 };
 
 // ----------------------------------------
-// Declaraciones anticipadas de estados
-// ----------------------------------------
-class EstadoConcretoA;
-class EstadoConcretoB;
-
-// ----------------------------------------
 // Estado concreto A
 // ----------------------------------------
 class EstadoConcretoA : public Estado {
