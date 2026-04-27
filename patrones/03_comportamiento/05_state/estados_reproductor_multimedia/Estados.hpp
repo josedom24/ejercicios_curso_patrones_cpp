@@ -1,11 +1,6 @@
 #pragma once
 #include "EstadoReproductor.hpp"
 
-// Declaraciones anticipadas
-class EstadoDetenido;
-class EstadoReproduciendo;
-class EstadoPausado;
-
 // ----------------------------------------
 // Estados concretos
 // ----------------------------------------
