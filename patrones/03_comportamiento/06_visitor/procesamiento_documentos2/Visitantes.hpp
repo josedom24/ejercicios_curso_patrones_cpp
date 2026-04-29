@@ -1,5 +1,5 @@
 #pragma once
-#include "Elementos.hpp"
+#include "Documentos.hpp"
 
 // ----------------------------------------
 // Interfaz Visitante
@@ -8,8 +8,8 @@ class Visitante {
 public:
     virtual ~Visitante() = default;
 
-    virtual void visitar(ElementoA&) = 0;
-    virtual void visitar(ElementoB&) = 0;
+    virtual void visitar(Factura&) = 0;
+    virtual void visitar(Informe&) = 0;
 };
 
 // ----------------------------------------
@@ -17,8 +17,8 @@ public:
 // ----------------------------------------
 class VisitanteMostrar : public Visitante {
 public:
-    void visitar(ElementoA&) override;
-    void visitar(ElementoB&) override;
+    void visitar(Factura&) override;
+    void visitar(Informe&) override;
 };
 
 // ----------------------------------------
@@ -26,6 +26,16 @@ public:
 // ----------------------------------------
 class VisitanteValidar : public Visitante {
 public:
-    void visitar(ElementoA&) override;
-    void visitar(ElementoB&) override;
+    void visitar(Factura&) override;
+    void visitar(Informe&) override;
+};
+
+
+// ----------------------------------------
+// NUEVO Visitante concreto: Exportar
+// ----------------------------------------
+class VisitanteExportar : public Visitante {
+public:
+    void visitar(Factura&) override;
+    void visitar(Informe&) override;
 };
