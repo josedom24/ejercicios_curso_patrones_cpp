@@ -3,7 +3,7 @@
 int main() {
     Reproductor r;
 
-    r.play();   // Detenido → Reproduciendo
+    r.play();   // SinContenido → Reproduciendo
     r.pause(); // Reproduciendo → Pausado
     r.play();  // Pausado → Reproduciendo
     r.stop();  // Reproduciendo → Detenido
