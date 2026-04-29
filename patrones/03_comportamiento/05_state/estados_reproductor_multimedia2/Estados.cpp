@@ -58,7 +58,7 @@ void EstadoPausado::stop(Reproductor& r) {
 // ----------------------------------------
 void EstadoSinContenido::play(Reproductor& r) {
     std::cout << "[Sin contenido] Cargando contenido...\n";
-    r.cambiar_estado(std::make_unique<EstadoDetenido>());
+    r.cambiar_estado(std::make_unique<EstadoReproduciendo>());
 }
 
 void EstadoSinContenido::pause(Reproductor&) {
