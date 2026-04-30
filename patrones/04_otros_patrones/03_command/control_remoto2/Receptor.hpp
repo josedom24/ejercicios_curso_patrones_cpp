@@ -25,8 +25,6 @@ public:
     }
 };
 
-// NUEVO
-
 class Ventilador {
 public:
     void activar() const {

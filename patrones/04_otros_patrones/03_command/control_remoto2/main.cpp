@@ -4,33 +4,36 @@
 int main() {
     Luz luz;
     Persiana persiana;
+    Ventilador ventilador; //NUEVO
 
     ControlRemoto control;
 
-    // Encender luz
-    control.asignar_accion([&]() { luz.encender(); });
-    control.pulsar_boton();
+    // ----------------------------
+    // Configuración inicial
+    // ----------------------------
 
-    // Apagar luz
-    control.asignar_accion([&]() { luz.apagar(); });
-    control.pulsar_boton();
+    control.asignar_boton1([&]() { luz.encender(); });
+    control.asignar_boton2([&]() { persiana.subir(); });
 
-    // Subir persiana
-    control.asignar_accion([&]() { persiana.subir(); });
-    control.pulsar_boton();
+    control.pulsar_boton1(); // Luz encendida
+    control.pulsar_boton2(); // Persiana subida
 
-    // Bajar persiana
-    control.asignar_accion([&]() { persiana.bajar(); });
-    control.pulsar_boton();
+    // ----------------------------
+    // Reconfiguración dinámica
+    // ----------------------------
 
-    // NUEVO
-    Ventilador ventilador;
+    control.asignar_boton1([&]() { luz.apagar(); });
+    control.asignar_boton2([&]() { persiana.bajar(); });
 
-    control.asignar_accion([&]() { ventilador.activar(); });
-    control.pulsar_boton();
+    control.pulsar_boton1(); // Luz apagada
+    control.pulsar_boton2(); // Persiana bajada
 
-    control.asignar_accion([&]() { ventilador.desactivar(); });
-    control.pulsar_boton();
+    // NUEVA configuración
+    control.asignar_boton1([&]() { ventilador.activar(); });
+    control.asignar_boton2([&]() { ventilador.desactivar(); });
+
+    control.pulsar_boton1();
+    control.pulsar_boton2();
 
     return 0;
 }
