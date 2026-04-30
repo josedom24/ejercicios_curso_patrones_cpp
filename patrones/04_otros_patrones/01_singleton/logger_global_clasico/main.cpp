@@ -5,15 +5,15 @@
 // ----------------------------
 
 void inicializar() {
-    SingletonLogger::instance().log("Iniciando el sistema...");
+    ConsoleLogger::instance().log("Iniciando el sistema...");
 }
 
 void procesar() {
-    SingletonLogger::instance().warning("El rendimiento está por debajo del esperado.");
+    ConsoleLogger::instance().warning("El rendimiento está por debajo del esperado.");
 }
 
 void finalizar() {
-    SingletonLogger::instance().error("Finalización inesperada detectada.");
+    ConsoleLogger::instance().error("Finalización inesperada detectada.");
 }
 
 // ----------------------------

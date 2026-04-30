@@ -17,17 +17,17 @@ public:
 // ----------------------------------------
 // Implementación Singleton
 // ----------------------------------------
-class SingletonLogger : public ILogger {
+class ConsoleLogger : public ILogger {
 public:
     // Punto de acceso global
-    static SingletonLogger& instance() {
-        static SingletonLogger instance; // Inicialización segura desde C++11
+    static ConsoleLogger& instance() {
+        static ConsoleLogger instance; // Inicialización segura desde C++11
         return instance;
     }
 
     // Eliminamos copia y asignación
-    SingletonLogger(const SingletonLogger&) = delete;
-    SingletonLogger& operator=(const SingletonLogger&) = delete;
+    ConsoleLogger(const ConsoleLogger&) = delete;
+    ConsoleLogger& operator=(const ConsoleLogger&) = delete;
 
     // Implementación de ILogger
     void log(const std::string& msg) override {
@@ -44,5 +44,5 @@ public:
 
 private:
     // Constructor privado: impide creación externa
-    SingletonLogger() = default;
+    ConsoleLogger() = default;
 };
